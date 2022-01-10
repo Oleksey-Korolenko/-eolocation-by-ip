@@ -9,7 +9,11 @@ const bootstrap = async () => {
 
   dotenv.config();
 
-  await app.use(express.json({ limit: '3mb' }));
+  process.env['APP_ROOT'] = __dirname;
+
+  app.set('trust proxy', true);
+
+  app.use(express.json({ limit: '3mb' }));
 
   const controllers = requireAll({
     dirname: __dirname,
