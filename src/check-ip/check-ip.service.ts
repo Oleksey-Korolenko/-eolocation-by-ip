@@ -5,7 +5,13 @@ import { IResponse } from '../common/interface';
 
 export default class CheckIpService {
   public checkIp = async (ip: string): Promise<IResponse<string>> => {
-    const ipHowNumber = +ip.split('.').join('');
+    const ipHowNumber = +ip
+      .split('.')
+      .reduce(
+        (prev: string, next: string, index: number): string =>
+          `${Math.pow(256, Math.abs(index - 3)) * +next + +prev}`,
+        '0'
+      );
 
     const jsonPath = path.join(`${process.env.APP_ROOT}`, 'files', 'ips.CSV');
 
